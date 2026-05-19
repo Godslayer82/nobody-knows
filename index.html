@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouncing Videos</title>
+    <title>Hi Jackson</title>
     <style>
         body {
             margin: 0;
@@ -17,7 +17,7 @@
 
         .video-container {
             position: absolute;
-            width: 50px; /* Adjust size of the videos here */
+            width: 50px; 
             cursor: pointer;
             border-radius: 8px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
@@ -28,7 +28,7 @@
         video {
             width: 100%;
             display: block;
-            pointer-events: none; /* Prevents click interference */
+            pointer-events: none; 
         }
     </style>
 </head>
@@ -36,11 +36,10 @@
 
 <script>
     const VIDEO_SRC = 'B3A0A942-C0F6-409B-A9D4-C9633DA111E1.mov';
-    const NUMBER_OF_VIDEOS = 5; // Change this to add more or fewer videos
-    const SPEED_MODIFIER = 3;  // Adjust speed of the bounce
+    const NUMBER_OF_VIDEOS = 5; 
+    const SPEED_MODIFIER = 3;  
     const containers = [];
 
-    // Initialize the bouncing video elements
     for (let i = 0; i < NUMBER_OF_VIDEOS; i++) {
         const container = document.createElement('div');
         container.className = 'video-container';
@@ -55,12 +54,10 @@
         container.appendChild(video);
         document.body.appendChild(container);
 
-        // Random starting positions and velocities
         const size = 250; 
         const x = Math.random() * (window.innerWidth - size);
         const y = Math.random() * (window.innerHeight - size);
         
-        // Random directions (-1 or 1) multiplied by speed
         const vx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1) * SPEED_MODIFIER;
         const vy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1) * SPEED_MODIFIER;
 
@@ -71,12 +68,11 @@
             vx: vx,
             vy: vy,
             width: size,
-            height: size * (9/16), // Assumes 16:9, will auto-adjust dynamically later
-            mass: 1 // Used for collision physics
+            height: size * (9/16), 
+            mass: 1 
         });
     }
 
-    // Unmute on click feature (Browsers block autoplay audio)
     window.addEventListener('click', () => {
         document.querySelectorAll('video').forEach(v => v.muted = false);
     }, { once: true });
@@ -85,15 +81,12 @@
         const width = window.innerWidth;
         const height = window.innerHeight;
 
-        // 1. Update positions & Wall Collisions
         containers.forEach(c => {
-            // Update actual height based on rendered video element
             c.height = c.element.offsetHeight || 140; 
 
             c.x += c.vx;
             c.y += c.vy;
 
-            // Bounce off left/right walls
             if (c.x <= 0) {
                 c.x = 0;
                 c.vx *= -1;
@@ -102,7 +95,6 @@
                 c.vx *= -1;
             }
 
-            // Bounce off top/bottom walls
             if (c.y <= 0) {
                 c.y = 0;
                 c.vy *= -1;
@@ -112,23 +104,19 @@
             }
         });
 
-        // 2. Handle Box-to-Box Collisions (Elastic Collision Physics)
         for (let i = 0; i < containers.length; i++) {
             for (let j = i + 1; j < containers.length; j++) {
                 const c1 = containers[i];
                 const c2 = containers[j];
 
-                // AABB (Axis-Aligned Bounding Box) Overlap Check
                 if (c1.x < c2.x + c2.width &&
                     c1.x + c1.width > c2.x &&
                     c1.y < c2.y + c2.height &&
                     c1.y + c1.height > c2.y) {
 
-                    // Calculate overlap on both axes
                     const overlapX = Math.min(c1.x + c1.width, c2.x + c2.width) - Math.max(c1.x, c2.x);
                     const overlapY = Math.min(c1.y + c1.height, c2.y + c2.height) - Math.max(c1.y, c2.y);
 
-                    // Push them apart and reverse velocity on the shallowest collision axis
                     if (overlapX < overlapY) {
                         if (c1.x < c2.x) {
                             c1.x -= overlapX / 2;
@@ -137,7 +125,6 @@
                             c1.x += overlapX / 2;
                             c2.x -= overlapX / 2;
                         }
-                        // Swap X velocities
                         const tempVx = c1.vx;
                         c1.vx = c2.vx;
                         c2.vx = tempVx;
@@ -149,7 +136,6 @@
                             c1.y += overlapY / 2;
                             c2.y -= overlapY / 2;
                         }
-                        // Swap Y velocities
                         const tempVy = c1.vy;
                         c1.vy = c2.vy;
                         c2.vy = tempVy;
@@ -158,7 +144,6 @@
             }
         }
 
-        // 3. Render the elements
         containers.forEach(c => {
             c.element.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
         });
